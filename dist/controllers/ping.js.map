@@ -1,0 +1,1 @@
+{"version":3,"file":"ping.js","sourceRoot":"","sources":["../../src/controllers/ping.ts"],"names":[],"mappings":";;AAGA;IAAA;IAIA,CAAC;IAHU,mCAAU,GAAjB,UAAkB,UAAuB;QACrC,UAAU,CAAC,GAAG,CAAC,OAAO,EAAE,UAAC,GAAG,EAAE,GAAG,IAAK,OAAA,GAAG,CAAC,IAAI,CAAC,GAAG,EAAE,OAAO,CAAC,EAAtB,CAAsB,CAAC,CAAC;IAClE,CAAC;IACL,qBAAC;AAAD,CAAC,AAJD,IAIC;AAJY,wCAAc"}
