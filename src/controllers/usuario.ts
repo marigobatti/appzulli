@@ -11,19 +11,19 @@ import * as jwt from 'jsonwebtoken';
 export class UsuarioController implements IController {
     public initialize(httpServer: IHttpServer): void {
         // get
-        httpServer.get('/usuarios', this.list.bind(this), true);
-        httpServer.get('/usuario', this.usuarioLogado.bind(this), true);
+        httpServer.get('/usuarios', this.list.bind(this), false); // true
+        httpServer.get('/usuario', this.usuarioLogado.bind(this), false); // true
         httpServer.get(
-            '/usuarios/:username', this.getByUsername.bind(this), true);
+            '/usuarios/:username', this.getByUsername.bind(this), false); // true
 
         // put
-        httpServer.put('/usuarios/:username', this.update.bind(this), true);
+        httpServer.put('/usuarios/:username', this.update.bind(this), false); // true
 
         // delete
-        httpServer.del('/usuarios/:username', this.remove.bind(this), true);
+        httpServer.del('/usuarios/:username', this.remove.bind(this), false); // true
 
         // registrar usuários e autenticação
-        httpServer.post('/usuarios', this.registrarUsuario.bind(this), false);
+        httpServer.post('/usuarios', this.create.bind(this), false);
         httpServer.post('/usuarios/login', this.autenticar.bind(this), false);
     }
 
@@ -33,6 +33,10 @@ export class UsuarioController implements IController {
 
     private async usuarioLogado(req: any, res: Response, next: Next): Promise<void> {
         res.redirect('/usuarios/' + req.user.username, next);
+    }
+
+    private async create(req: Request, res: Response): Promise<void> {
+        res.send(await usuarioService.create(req.body));
     }
 
     private async update(req: Request, res: Response): Promise<void> {

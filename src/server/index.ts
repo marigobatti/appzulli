@@ -32,6 +32,7 @@ export class ApiServer implements IHttpServer {
         if (authenticate)  {
             this.restify[method](url, passport.authenticate('jwt', { session: false }), async (req, res, next) => {
                 try {
+                    res.header('Access-Control-Expose-Headers', ['Content-Range', 'X-Total-Count']);
                     await requestHandler(req, res, next);
                 } catch (e) {
                     console.log(e);
@@ -41,6 +42,7 @@ export class ApiServer implements IHttpServer {
         } else {
             this.restify[method](url, async (req, res, next) => {
                 try {
+                    res.header('Access-Control-Expose-Headers', ['Content-Range', 'X-Total-Count']);
                     await requestHandler(req, res, next);
                 } catch (e) {
                     console.log(e);
@@ -59,9 +61,11 @@ export class ApiServer implements IHttpServer {
 
         const cors = corsMiddleware({
             preflightMaxAge: 5,
-            origins: ['http://localhost:8081'],
-            allowHeaders: ['Origin', 'Authorization', 'X-Requested-With', 'Content-Type', 'Accept'],
-            exposeHeaders: ['Origin', 'Authorization', 'X-Requested-With', 'Content-Type', 'Accept']
+            origins: ['http://localhost:8081', 'http://localhost:3000', 'http://localhost:3001', '*'],
+            allowHeaders: ['Origin', 'Authorization', 'X-Requested-With', 
+            'Content-Type', 'Accept', 'Content-Range', 'X-Total-Count'],
+            exposeHeaders: ['Origin', 'Authorization', 'X-Requested-With', 
+            'Content-Type', 'Accept', 'Content-Range', 'X-Total-Count']
         });
 
         this.restify.pre(cors.preflight);

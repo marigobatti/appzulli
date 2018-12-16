@@ -2,11 +2,9 @@ import { Usuario } from '../models/usuario';
 import { DatabaseProvider } from '../database';
 import { DeleteResult } from 'typeorm';
 
-const saltRounds = 15;
-
 export class UsuarioService {
 
-    public async create(usuario: Usuario): Promise<Usuario> {
+    public async create2(usuario: Usuario): Promise<Usuario> {
         const connection = await DatabaseProvider.getConnection();
         const entity = new Usuario();
         entity.username = usuario.username;
@@ -18,9 +16,14 @@ export class UsuarioService {
         return await connection.getRepository(Usuario).save(entity);
     }
 
+    public async create(usuario: Usuario): Promise<Usuario> {
+        const connection = await DatabaseProvider.getConnection();
+        return await connection.getRepository(Usuario).save(usuario);
+    }
+
     public async list(): Promise<Usuario[]> {
         const connection = await DatabaseProvider.getConnection();
-        return await connection.getRepository(Usuario).find();
+        return await connection.getRepository(Usuario).find({ relations: ['pessoa']});
     }
 
     public async update(usuario: Usuario): Promise<Usuario> {

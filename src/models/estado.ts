@@ -1,18 +1,16 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, Index } from 'typeorm';
 import * as Joi from 'joi';
-import { Estado } from './';
 
 @Entity()
-export class Cidade {
+export class Estado {
     @PrimaryGeneratedColumn({type: 'int'})
     public id: number;
 
     @Column({type: 'varchar'})
     public descricao: string;
 
-    @OneToOne(type => Estado)
-    @JoinColumn()
-    public estado: Estado;
+    @Column({type: 'varchar'})
+    public sigla: string;
 
     @Column({type: 'boolean', default: true})
     public status: boolean;
@@ -20,6 +18,7 @@ export class Cidade {
     public static getSchema() {
         return {
             descricao: Joi.string(),
+            sigla: Joi.string().max(80),
             status: Joi.boolean()
         };
     }

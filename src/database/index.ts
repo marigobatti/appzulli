@@ -1,6 +1,8 @@
 import { Connection, createConnection, Logger } from 'typeorm';
-import { Usuario } from '../models/usuario';
-import { Pessoa } from '../models/pessoa';
+import { Bairro, Cidade, CorpoEncomenda,
+         Encomenda, EncomendaData, Endereco,
+         Estado, Produto, ProdutoValor, Pessoa,
+         TipoData, TipoValor, Usuario } from '../models/';
 
 export interface IDatabaseConfiguration {
     type: 'postgres';
@@ -30,8 +32,11 @@ export class DatabaseProvider {
             extra: {
                 ssl
             },
-            entities: [ Usuario, Pessoa ],
-            synchronize: true // DO NOT USE IN PRODUCTION!!!!!!
+            entities: [ Bairro, Cidade, CorpoEncomenda,
+                        Encomenda, EncomendaData, Endereco,
+                        Estado, Produto, ProdutoValor, Pessoa,
+                        TipoData, TipoValor, Usuario ],
+            synchronize: false // DO NOT USE IN PRODUCTION!!!!!!
         });
 
         return DatabaseProvider.connection;

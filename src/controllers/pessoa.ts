@@ -13,11 +13,15 @@ export class PessoaController implements IController {
     }
 
     private async list(req: Request, res: Response): Promise<void> {
+        res.header('X-Total-Count', (await pessoaService.list()).length);
+        res.header('Content-Range', (await pessoaService.list()).length);
         res.send(await pessoaService.list());
     }
 
     private async getById(req: Request, res: Response): Promise<void> {
         const usuario = await pessoaService.getById(req.params.id);
+        res.header('X-Total-Count', 1);
+        res.header('Content-Range', 1);
         res.send(usuario ? 200 : 404, usuario);
     }
 
@@ -26,7 +30,7 @@ export class PessoaController implements IController {
     }
 
     private async update(req: Request, res: Response): Promise<void> {
-        // TODO: Homework
+        res.send(await pessoaService.update(req.body));
     }
 
     private async remove(req: Request, res: Response): Promise<void> {

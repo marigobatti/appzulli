@@ -79,7 +79,7 @@ var Usuario = /** @class */ (function () {
             username: Joi.string().min(3).max(30),
             email: Joi.string().email(),
             senha: Joi.string().alphanum().min(6).max(30),
-            funcao: Joi.string().valid('Cliente', 'Funcionário', 'Administrador'),
+            funcao: Joi.string().valid('pessoa', 'Funcionário', 'Administrador'),
             status: Joi.boolean(),
             pessoaId: Joi.number(),
             pessoa: Joi.object(pessoa_1.Pessoa.getSchema())
@@ -100,11 +100,11 @@ var Usuario = /** @class */ (function () {
         __metadata("design:type", String)
     ], Usuario.prototype, "email", void 0);
     __decorate([
-        typeorm_1.Column({ type: 'varchar', nullable: false }),
+        typeorm_1.Column({ type: 'varchar', nullable: true }),
         __metadata("design:type", String)
     ], Usuario.prototype, "senha", void 0);
     __decorate([
-        typeorm_1.Column({ type: 'varchar', default: 'Cliente' }),
+        typeorm_1.Column({ type: 'varchar', default: 'pessoa' }),
         __metadata("design:type", String)
     ], Usuario.prototype, "funcao", void 0);
     __decorate([

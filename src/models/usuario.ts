@@ -1,8 +1,8 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, Index, BeforeInsert } from 'typeorm';
-import { Pessoa } from './pessoa';
 import * as Joi from 'joi';
 import * as bcrypt from 'bcrypt-nodejs';
 import { BadRequestError } from 'restify-errors';
+import { Pessoa } from './';
 
 @Entity()
 export class Usuario {
@@ -20,10 +20,13 @@ export class Usuario {
     @Column({type: 'varchar', nullable: false})
     public senha: string;
 
-    @Column({type: 'varchar', default: 'Cliente'})
+    @Column({type: 'varchar', default: 'cliente'})
     public funcao: string;
 
-    @Column({ default: true })
+    @OneToOne(type => Pessoa, pessoa => pessoa.usuario)
+    public pessoa: Pessoa;
+
+    @Column({type: 'boolean', default: true})
     public status: boolean;
 
     @BeforeInsert()
@@ -45,10 +48,8 @@ export class Usuario {
             username: Joi.string().min(3).max(30),
             email: Joi.string().email(),
             senha: Joi.string().alphanum().min(6).max(30),
-            funcao: Joi.string().valid('Cliente', 'Funcionário', 'Administrador'),
+            funcao: Joi.string().valid('pessoa', 'Funcionário', 'Administrador'),
             status: Joi.boolean(),
-            pessoaId: Joi.number(),
-            pessoa: Joi.object(Pessoa.getSchema())
         };
     }
 }
